@@ -8,13 +8,13 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../02_BLL/login-reducer";
-import {AppRootStateType, useAppDispatch} from "../02_BLL/store";
+import {AppDispatch, AppRootStateType} from "../02_BLL/store";
 import {Navigate} from "react-router-dom";
 
 export const Login = () => {
-    const dispatch = useAppDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
     type FormikErrorType = {
         email?: string
@@ -31,7 +31,7 @@ export const Login = () => {
             const errors: FormikErrorType = {}
             if (!values.email) {
                 errors.email = 'Required'
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            } else if (!/^[A-Z/d._%+-]+@[A-Z/d.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address'
             }
             if (!values.password) {
@@ -42,7 +42,8 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-            dispatch(loginTC(values.email,values.password, values.rememberMe))
+            const thunk = loginTC(values.email,values.password, values.rememberMe)
+            dispatch(thunk)
             formik.resetForm()
         },
     })
@@ -59,9 +60,9 @@ export const Login = () => {
                                target={'_blank'}> here
                             </a>
                         </p>
-                        <p>or use common test account credentials:</p>
-                        <p>Email: free@samuraijs.com</p>
-                        <p>Password: free</p>
+                        <p>or use common test account:</p>
+                        <p>Email: test_projects@yahoo.com</p>
+                        <p>Password: test123456</p>
                     </FormLabel>
                     <FormGroup>
                         <TextField {...formik.getFieldProps("email")}

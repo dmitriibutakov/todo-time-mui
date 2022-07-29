@@ -2,8 +2,8 @@ import React, {useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from './TodolistsList/TodolistsList'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType, useAppDispatch} from './02_BLL/store'
-import {initializeAppTC, InitialStateType, RequestStatusType} from './02_BLL/app-reducer'
+import {AppDispatch, AppRootStateType} from './02_BLL/store'
+import {initializeAppTC, InitialStateType} from './02_BLL/app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -23,7 +23,7 @@ type PropsType = {
 }
 
 function App({demo = false}: PropsType) {
-    const dispatch = useAppDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const {status, initialized} = useSelector<AppRootStateType, InitialStateType>((state) => state.app)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     useEffect(() => {

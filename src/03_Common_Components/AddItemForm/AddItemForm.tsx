@@ -28,8 +28,12 @@ export const AddItemForm = React.memo(function ({addItem, disabled = false}: Add
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        error !== null && setError(null);
-        e.charCode === 13 && addItemHandler();
+        if (error !== null) {
+            setError(null);
+        }
+        if (e.charCode === 13) {
+            addItemHandler();
+        }
     }
 
     return <div>

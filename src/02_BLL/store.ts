@@ -17,7 +17,7 @@ export const useAppDispatch = () => useDispatch<AppDispatch>()
 
 //types
 type RootState = ReturnType<typeof store.getState>
-type AppDispatch = ThunkDispatch<RootState, unknown, AppReducersTypes>
+export type AppDispatch = ThunkDispatch<RootState, unknown, AppReducersTypes>
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export type AppStateType = ReturnType<typeof rootReducer>

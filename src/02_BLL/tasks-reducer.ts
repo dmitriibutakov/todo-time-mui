@@ -1,6 +1,6 @@
 import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer'
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../01_DAL/todolists-api'
-import {AppThunk} from './store'
+import {AppRootStateType, AppThunk} from './store'
 import {setAppStatus} from './app-reducer'
 import {handleServerAppError, handleServerNetworkError} from '../04_Utils/error-utils'
 
@@ -86,7 +86,7 @@ export const addTaskTC = (title: string, todolistId: string): AppThunk => (dispa
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk =>
-    (dispatch, getState) => {
+    (dispatch, getState: () => AppRootStateType) => {
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (!task) {
