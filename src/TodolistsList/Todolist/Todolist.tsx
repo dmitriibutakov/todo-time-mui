@@ -26,7 +26,7 @@ type PropsType = {
 export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     const dispatch = useAppDispatch()
     console.log('Todolist called')
-
+    console.log(props.tasks)
     useEffect(() => {
         if (demo) {
             return

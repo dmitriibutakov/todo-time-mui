@@ -6,17 +6,15 @@ import {AppDispatch, AppRootStateType} from './02_BLL/store'
 import {initializeAppTC, InitialStateType} from './02_BLL/app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import LinearProgress from '@mui/material/LinearProgress';
-import {Menu} from '@mui/icons-material';
 import {ErrorSnackbar} from './03_Common_Components/ErrorSnackbar/ErrorSnackbar'
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./Login/Login";
 import {CircularProgress} from "@mui/material";
-import {logoutTC} from "./02_BLL/login-reducer";
+import {logoutTC} from "./02_BLL/auth-reducer";
 
 type PropsType = {
     demo?: boolean
@@ -43,13 +41,9 @@ const logoutHandler = () => dispatch(logoutTC())
                 <ErrorSnackbar/>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton edge="start" color="inherit" aria-label="menu">
-                            <Menu/>
-                        </IconButton>
                         <Typography variant="h6">
-                            News
                         </Typography>
-                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Login</Button>}
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
                     </Toolbar>
                     {status === 'loading' && <LinearProgress/>}
                 </AppBar>
