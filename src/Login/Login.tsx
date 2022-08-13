@@ -35,14 +35,14 @@ export const Login = () => {
                 errors.email = 'Invalid email address'
             }
             if (!values.password) {
-               errors.password = "Required 2222"
+                errors.password = "Required 2222"
             } else if (values.password.length < 3) {
                 errors.password = "min length 3 symbols"
             }
             return errors
         },
         onSubmit: values => {
-            const thunk = loginTC(values.email,values.password, values.rememberMe)
+            const thunk = loginTC(values.email, values.password, values.rememberMe)
             dispatch(thunk)
             formik.resetForm()
         },

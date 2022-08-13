@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect } from 'react'
-import { AddItemForm } from '../../03_Common_Components/AddItemForm/AddItemForm'
-import { EditableSpan } from '../../03_Common_Components/EditableSpan/EditableSpan'
+import React, {useCallback, useEffect} from 'react'
+import {AddItemForm} from '../../03_Common_Components/AddItemForm/AddItemForm'
+import {EditableSpan} from '../../03_Common_Components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { Delete } from '@mui/icons-material';
-import { Task } from './Task/Task'
-import { TaskStatuses, TaskType } from '../../01_DAL/todolists-api'
-import { FilterValuesType, TodolistDomainType } from '../../02_BLL/todolists-reducer'
-import { fetchTasksTC } from '../../02_BLL/tasks-reducer'
+import {Delete} from '@mui/icons-material';
+import {Task} from './Task/Task'
+import {TaskStatuses, TaskType} from '../../01_DAL/todolists-api'
+import {FilterValuesType, TodolistDomainType} from '../../02_BLL/todolists-reducer'
+import {fetchTasksTC} from '../../02_BLL/tasks-reducer'
 import {useAppDispatch} from "../../02_BLL/store";
 
 type PropsType = {
@@ -26,7 +26,6 @@ type PropsType = {
 export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     const dispatch = useAppDispatch()
     console.log('Todolist called')
-    console.log(props.tasks)
     useEffect(() => {
         if (demo) {
             return
@@ -48,7 +47,6 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     const onAllClickHandler = useCallback(() => props.changeFilter('all', props.todolist.id), [props.todolist.id, props.changeFilter])
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.todolist.id), [props.todolist.id, props.changeFilter])
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.todolist.id), [props.todolist.id, props.changeFilter])
-
 
     let tasksForTodolist = props.tasks
 

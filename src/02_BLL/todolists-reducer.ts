@@ -2,6 +2,7 @@ import {todolistsAPI, TodolistType} from '../01_DAL/todolists-api'
 import {RequestStatusType, setAppStatus} from './app-reducer'
 import {AppThunk} from "./store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {handleServerNetworkError} from "../04_Utils/error-utils";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -51,45 +52,44 @@ export const {
 export const todolistsReducer = slice.reducer
 
 // thunks
-export const fetchTodolistsTC = (): AppThunk => (dispatch) => {
+export const fetchTodolistsTC = (): AppThunk => async dispatch => {
     dispatch(setAppStatus({status: 'loading'}))
-    todolistsAPI.getTodolists()
-        .then((res) => {
-            dispatch(setTodolists({todolists: res.data}))
-            dispatch(setAppStatus({status: 'succeeded'}))
-        })
+    try {
+        const response = await todolistsAPI.getTodolists()
+        dispatch(setTodolists({todolists: response.data}))
+        dispatch(setAppStatus({status: 'succeeded'}))
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch);
+    }
 }
 export const removeTodolistTC = (todolistId: string): AppThunk => async dispatch => {
     dispatch(setAppStatus({status: 'loading'}))
     dispatch(changeTodolistEntityStatus({id: todolistId, status: 'loading'}))
-    const response = await todolistsAPI.deleteTodolist(todolistId)
-        try {
-            dispatch(removeTodolist({id: todolistId}))
-            dispatch(setAppStatus({status: 'succeeded'}))
-        }
-        catch(err: any) {
-            console.log(err)
-        }
+    await todolistsAPI.deleteTodolist(todolistId)
+    try {
+        dispatch(removeTodolist({id: todolistId}))
+        dispatch(setAppStatus({status: 'succeeded'}))
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch);
+    }
 }
 export const addTodolistTC = (title: string): AppThunk => async dispatch => {
     dispatch(setAppStatus({status: 'loading'}))
     const response = await todolistsAPI.createTodolist(title)
-        try{
-            dispatch(addTodolist({todolist: response.data.data.item}))
-            dispatch(setAppStatus({status: 'succeeded'}))
-        }
-        catch (error :any) {
-            console.log(error)
-        }
+    try {
+        dispatch(addTodolist({todolist: response.data.data.item}))
+        dispatch(setAppStatus({status: 'succeeded'}))
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch);
+    }
 }
 export const changeTodolistTitleTC = (id: string, title: string): AppThunk => async dispatch => {
-    const response = await todolistsAPI.updateTodolist(id, title)
-        try {
-            dispatch(changeTodolistTitle({id, title}))
-        }
-        catch (error: any) {
-            console.log(error)
-        }
+    await todolistsAPI.updateTodolist(id, title)
+    try {
+        dispatch(changeTodolistTitle({id, title}))
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch);
+    }
 }
 
 // types

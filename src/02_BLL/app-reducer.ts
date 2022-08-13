@@ -35,17 +35,15 @@ export const initializeAppTC = (): AppThunk => async dispatch => {
     try {
         const response = await authAPI.me()
         dispatch(setAppInit({initialized: true}))
-        if (response.data.resultCode === 0) {
-            dispatch(setIsLoggedIn({isLoggedIn: true}));
-        } else {
-            handleServerAppError(response.data, dispatch);
-        }
-    } catch (error: any) {
-        handleServerNetworkError(error, dispatch)
+        response.data.resultCode === 0 ?
+            dispatch(setIsLoggedIn({isLoggedIn: true}))
+            : handleServerAppError(response.data, dispatch)
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch)
     }
 }
-//types
 
+//types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = {
     status: RequestStatusType

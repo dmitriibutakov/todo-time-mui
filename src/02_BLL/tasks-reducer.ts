@@ -74,11 +74,11 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async dispatch => 
     }
 }
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => async dispatch => {
-    const response = await todolistsAPI.deleteTask(todolistId, taskId)
+    await todolistsAPI.deleteTask(todolistId, taskId)
     try {
         dispatch(removeTask({taskId, todolistId}))
-    } catch (error: any) {
-        console.log(error)
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch)
     }
 }
 export const addTaskTC = (title: string, todolistId: string): AppThunk => async dispatch => {
@@ -92,8 +92,8 @@ export const addTaskTC = (title: string, todolistId: string): AppThunk => async 
         } else {
             handleServerAppError(response.data, dispatch);
         }
-    } catch (error: any) {
-        handleServerNetworkError(error, dispatch)
+    } catch (error) {
+        handleServerNetworkError(error as Error, dispatch)
     }
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk =>
@@ -116,13 +116,11 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
         const response = await todolistsAPI.updateTask(todolistId, taskId, apiModel)
         try {
-            if (response.data.resultCode === 0) {
+            response.data.resultCode === 0 ?
                 dispatch(updateTask({taskId, model: domainModel, todolistId}))
-            } else {
-                handleServerAppError(response.data, dispatch);
-            }
-        } catch (error: any) {
-            handleServerNetworkError(error, dispatch);
+                : handleServerAppError(response.data, dispatch);
+        } catch (error) {
+            handleServerNetworkError(error as Error, dispatch);
         }
     }
 

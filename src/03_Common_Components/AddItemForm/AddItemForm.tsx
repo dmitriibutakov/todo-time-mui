@@ -1,7 +1,7 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import { AddBox } from '@mui/icons-material';
+import {AddBox} from '@mui/icons-material';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -28,12 +28,8 @@ export const AddItemForm = React.memo(function ({addItem, disabled = false}: Add
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (error !== null) {
-            setError(null);
-        }
-        if (e.charCode === 13) {
-            addItemHandler();
-        }
+        error !== null && setError(null)
+        e.key === "Enter" && addItemHandler();
     }
 
     return <div>
