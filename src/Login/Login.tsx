@@ -30,12 +30,12 @@ export const Login = () => {
         validate: (values) => {
             const errors: FormikErrorType = {}
             if (!values.email) {
-                errors.email = 'Required'
+                errors.email = 'Email is required'
             } else if (!/^[A-Z/d._%+-]+@[A-Z/d.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address'
             }
             if (!values.password) {
-                errors.password = "Required 2222"
+                errors.password = "Password is required"
             } else if (values.password.length < 3) {
                 errors.password = "min length 3 symbols"
             }
@@ -61,7 +61,7 @@ export const Login = () => {
                             </a>
                         </p>
                         <p>or use common test account:</p>
-                        <p>Email: test_projects@yahoo.com</p>
+                        <p>Email: todo.acc.share@gmail.com</p>
                         <p>Password: test123456</p>
                     </FormLabel>
                     <FormGroup>
