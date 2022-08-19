@@ -18,6 +18,7 @@ import {logoutTC} from "./02_BLL/auth-reducer";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>()
+
     const {status, initialized} = useSelector<AppRootStateType, InitialStateType>(state => state.app)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     useEffect(() => {
