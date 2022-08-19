@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import LinearProgress from '@mui/material/LinearProgress';
 import {ErrorSnackbar} from './03_Common_Components/ErrorSnackbar/ErrorSnackbar'
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./Login/Login";
 import {CircularProgress} from "@mui/material";
 import {logoutTC} from "./02_BLL/auth-reducer";
