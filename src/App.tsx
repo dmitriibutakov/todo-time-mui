@@ -16,11 +16,7 @@ import {Login} from "./Login/Login";
 import {CircularProgress} from "@mui/material";
 import {logoutTC} from "./02_BLL/auth-reducer";
 
-type PropsType = {
-    demo?: boolean
-}
-
-function App({demo = false}: PropsType) {
+function App() {
     const dispatch = useDispatch<AppDispatch>()
     const {status, initialized} = useSelector<AppRootStateType, InitialStateType>(state => state.app)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
@@ -36,7 +32,7 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <div className="App">
                 <ErrorSnackbar/>
                 <AppBar position="static">
@@ -51,8 +47,7 @@ function App({demo = false}: PropsType) {
                     <Routes>
                         <Route path={'/'} element={<TodolistsList/>}/>
                         <Route path={'/login'} element={<Login/>}/>
-                        {/*<Route path='*' element={<Navigate to={'/404'}/>}/>*/}
-                        {/*<Route path='/404' element={<h1>404: PAGE NOT FOUND</h1>}/>*/}
+                        <Route path='*' element={<Navigate to={'/404'}/>}/>
                     </Routes>
                 </Container>
             </div>
