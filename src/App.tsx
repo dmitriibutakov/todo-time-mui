@@ -32,7 +32,6 @@ function App() {
     }
 
     return (
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <div className="App">
                 <ErrorSnackbar/>
                 <AppBar position="static">
@@ -51,7 +50,6 @@ function App() {
                     </Routes>
                 </Container>
             </div>
-        </BrowserRouter>
     )
 }
 
