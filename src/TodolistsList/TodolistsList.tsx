@@ -27,7 +27,6 @@ export const TodolistsList: React.FC<PropsType> = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    console.log(tasks)
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
@@ -42,11 +41,11 @@ export const TodolistsList: React.FC<PropsType> = () => {
     }, [dispatch])
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        dispatch(updateTaskTC( {taskId: id, domainModel: {status}, todolistId}))
+        dispatch(updateTaskTC({taskId: id, domainModel: {status}, todolistId}))
     }, [dispatch])
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        dispatch(updateTaskTC({taskId:id, domainModel:{title: newTitle}, todolistId}))
+        dispatch(updateTaskTC({taskId: id, domainModel: {title: newTitle}, todolistId}))
     }, [dispatch])
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
@@ -58,7 +57,7 @@ export const TodolistsList: React.FC<PropsType> = () => {
     }, [dispatch])
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        dispatch(changeTodolistTitleTC(id, title))
+        dispatch(changeTodolistTitleTC({id, title}))
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {

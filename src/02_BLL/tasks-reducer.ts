@@ -1,11 +1,11 @@
 import {
     TaskPriorities, TaskStatuses,
-    TaskType, todolistsAPI, UpdateTaskModelType
+    TaskType, todolistsAPI, TodolistType, UpdateTaskModelType
 } from '../01_DAL/todolists-api'
 import {setAppStatus} from './app-reducer'
 import {handleServerAppError, handleServerNetworkError} from '../04_Utils/error-utils'
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {addTodolist, removeTodolist, setTodolists} from "./todolists-reducer";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {addTodolistTC, fetchTodolistsTC, removeTodolistTC} from "./todolists-reducer";
 import {AppStateType} from "./store";
 
 const findIndex = (state: TaskType[], id: string) => {
@@ -13,7 +13,7 @@ const findIndex = (state: TaskType[], id: string) => {
 }
 // thunks
 export const fetchTasksTC = createAsyncThunk("tasks/fetchTasks",
-    async (todoListId: string, {dispatch}) => {
+    async (todoListId: string, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
             const response = await todolistsAPI.getTasks(todoListId)
@@ -22,16 +22,18 @@ export const fetchTasksTC = createAsyncThunk("tasks/fetchTasks",
             return {tasks, todoListId}
         } catch (error) {
             handleServerNetworkError(error as Error, dispatch)
+            return rejectWithValue(null)
         }
     })
 
 export const removeTaskTC = createAsyncThunk("tasks/removeTask",
-    async (payload: { todolistId: string, taskId: string }, {dispatch}) => {
+    async (payload: { todolistId: string, taskId: string }, {dispatch, rejectWithValue}) => {
         try {
             await todolistsAPI.deleteTask(payload.todolistId, payload.taskId)
             return payload
         } catch (error) {
             handleServerNetworkError(error as Error, dispatch)
+            return rejectWithValue(null)
         }
     })
 export const addTaskTC = createAsyncThunk("tasks/addTask",
@@ -87,19 +89,19 @@ const slice = createSlice({
     initialState: {} as TasksStateType,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(addTodolist, (state, action) => {
+        builder.addCase(addTodolistTC.fulfilled, (state, action) => {
             state[action.payload.todolist.id] = []
         })
-        builder.addCase(removeTodolist, (state, action) => {
+        builder.addCase(removeTodolistTC.fulfilled, (state, action) => {
             delete state[action.payload.id]
         })
-        builder.addCase(setTodolists, (state, action) => {
-            action.payload.todolists.forEach(tl => state[tl.id] = [])
+        builder.addCase(fetchTodolistsTC.fulfilled, (state, action) => {
+            action.payload.todolists.forEach((tl: TodolistType) => state[tl.id] = [])
         })
-        builder.addCase(fetchTasksTC.fulfilled, (state, action: any) => {
+        builder.addCase(fetchTasksTC.fulfilled, (state, action) => {
             state[action.payload.todoListId] = action.payload.tasks
         })
-        builder.addCase(removeTaskTC.fulfilled, (state, action: any) => {
+        builder.addCase(removeTaskTC.fulfilled, (state, action) => {
             const tasks = state[action.payload.todolistId]
             const indexTask = findIndex(tasks, action.payload.taskId)
             if (indexTask !== -1) {

@@ -3,14 +3,16 @@ import {handleServerNetworkError} from "../04_Utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setIsLoggedIn} from "./auth-reducer";
 
-export const initializeAppTC = createAsyncThunk("app/initializedApp", async (arg, {dispatch})=> {
+export const initializeAppTC = createAsyncThunk("app/initializedApp",
+    async (arg, {dispatch, rejectWithValue}) => {
     try {
         const response = await authAPI.me()
-       if( response.data.resultCode === 0) {
-           dispatch(setIsLoggedIn({isLoggedIn: true}))
-       }
+        if (response.data.resultCode === 0) {
+            dispatch(setIsLoggedIn({isLoggedIn: true}))
+        }
     } catch (error) {
         handleServerNetworkError(error as Error, dispatch)
+        return rejectWithValue(null)
     }
 })
 

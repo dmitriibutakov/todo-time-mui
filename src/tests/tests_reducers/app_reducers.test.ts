@@ -24,10 +24,9 @@ test("app status should be changed", () => {
     expect(startState.status).toBe("idle")
     expect(editedState.status).toBe("loading")
 })
-/*
 test("app should be initialized", () => {
-    const action = initializeAppTC.fulfilled(void,"", void)
+    const action = initializeAppTC.fulfilled
     const editedState = appReducer(startState, action)
     expect(startState.initialized).toBeFalsy()
     expect(editedState.initialized).toBeTruthy()
-})*/
+})

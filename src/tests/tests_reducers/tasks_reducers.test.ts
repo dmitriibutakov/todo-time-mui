@@ -72,10 +72,10 @@ test('current title of task should be changed', () => {
 })
 test('tasks should be getted for todolistId', () => {
     const action = fetchTasksTC.fulfilled({
-        tasks: [{id: "4", ...taskWithoutId, todoListId: variableTodolistId}],
+        tasks: [{id: "2", ...taskWithoutId, todoListId: variableTodolistId}],
         todoListId: variableTodolistId
     }, "", variableTodolistId)
     const editedState = tasksReducer(startState, action)
-    expect(editedState[variableTodolistId].length).toBe(2)
+    expect(editedState[variableTodolistId].length).toBe(1)
     expect(editedState[variableTodolistId][0].status).toBe(TaskStatuses.New)
 })
