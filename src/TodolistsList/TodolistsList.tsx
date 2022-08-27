@@ -27,43 +27,43 @@ export const TodolistsList: React.FC<PropsType> = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    console.log(todolists)
+    console.log(tasks)
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
-    }, [])
+    }, [dispatch])
 
-    const removeTask = useCallback(function (id: string, todolistId: string) {
-        dispatch(removeTaskTC(id, todolistId))
-    }, [])
+    const removeTask = useCallback(function (taskId: string, todolistId: string) {
+        dispatch(removeTaskTC({todolistId, taskId}))
+    }, [dispatch])
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        dispatch(addTaskTC(title, todolistId))
-    }, [])
+        dispatch(addTaskTC({title, todolistId}))
+    }, [dispatch])
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        dispatch(updateTaskTC(id, {status}, todolistId))
-    }, [])
+        dispatch(updateTaskTC( {taskId: id, domainModel: {status}, todolistId}))
+    }, [dispatch])
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        dispatch(updateTaskTC(id, {title: newTitle}, todolistId))
-    }, [])
+        dispatch(updateTaskTC({taskId:id, domainModel:{title: newTitle}, todolistId}))
+    }, [dispatch])
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
         dispatch(changeTodolistFilter({id: todolistId, filter: value}))
-    }, [])
+    }, [dispatch])
 
     const removeTodolist = useCallback(function (id: string) {
         dispatch(removeTodolistTC(id))
-    }, [])
+    }, [dispatch])
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
         dispatch(changeTodolistTitleTC(id, title))
-    }, [])
+    }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistTC(title))
-    }, [])
+    }, [dispatch])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>

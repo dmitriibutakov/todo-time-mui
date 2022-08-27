@@ -1,9 +1,9 @@
-import {TasksActionsType, tasksReducer} from './tasks-reducer';
+import {tasksReducer} from './tasks-reducer';
 import {TodolistActionsType, todolistsReducer} from './todolists-reducer';
 import {combineReducers} from 'redux'
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {AppActionsType, appReducer} from './app-reducer'
-import {AuthActionsType, authReducer} from "./auth-reducer";
+import {authReducer} from "./auth-reducer";
 import { useDispatch } from 'react-redux';
 import {configureStore} from "@reduxjs/toolkit";
 
@@ -30,6 +30,6 @@ export type AppDispatch = ThunkDispatch<RootState, unknown, AppReducersTypes>
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export type AppStateType = ReturnType<typeof rootReducer>
-export type AppReducersTypes = AppActionsType | TasksActionsType | AuthActionsType | TodolistActionsType
+export type AppReducersTypes = AppActionsType | TodolistActionsType
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AppReducersTypes>
 
